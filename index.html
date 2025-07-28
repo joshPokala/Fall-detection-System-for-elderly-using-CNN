@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Fall Detection Model</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>Fall Detection Model</h1>
+        <div class="main-container">
+            <div class="container1">
+                <h2>Video Feed</h2>
+                <img src="/video_feed" alt="Video Feed">
+            </div>
+            <div class="container1">
+                <div class="fall-container">
+                    <span id="fall_status"></span>
+                </div>
+                <div class="fall-container">
+                    <span id="date"></span>
+                </div>
+            </div>
+            
+        </div>
+        <script>
+            thing = document.getElementById("fall_status");
+            setInterval(() => {
+                fetch("/fall_status")
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log(data);
+                        thing.innerHTML = data;
+                        if(data.split(",")[0] == "Fall Detected!!"){
+                            thing.style.color = "red";
+                        } else {
+                            thing.style.color = "green";
+                        }
+                    });
+            }, 500);
+
+            date = document.getElementById("date");
+            setInterval(() => {
+                date.innerHTML = new Date().toLocaleString();
+            }, 1000);
+
+        </script>
+    </body>
+</html>
